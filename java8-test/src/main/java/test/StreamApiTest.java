@@ -1,18 +1,20 @@
 package test;
 
 import org.junit.jupiter.api.Test;
+import stream.Employee;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CollectorsTest {
+class StreamApiTest {
 
     @Test
-    public void 문자열_인트형으로_변환() {
+    public void 리스트_문자열_인트형으로_변환() {
 
         List<String> stringList = Arrays.asList("1", "2", "3", "4", "5");
 
@@ -55,5 +57,25 @@ class CollectorsTest {
                 .peek(System.out::println)
                 .collect(Collectors.toList());
 
+    }
+
+    @Test
+    public void 리스트_GROUP_BY() {
+
+        List<Employee> employees = Arrays.asList(
+                new Employee("개발팀", "김코드", 35),
+                new Employee("개발팀", "박개발", 19),
+                new Employee("경영팀", "경영만", 40),
+                new Employee("경영팀", "최경영", 25),
+                new Employee("기술지원팀", "오기술", 43),
+                new Employee("기술지원팀", "기술진", 27)
+        );
+
+        Map<String, List<Employee>> groupByDept = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment));
+
+        groupByDept.forEach((key, value) -> {
+            System.out.println(key + " : " + value);
+        });
     }
 }

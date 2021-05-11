@@ -1,4 +1,4 @@
 package stream;
 
-public class Collectors {
+public class StreamApi {
 }
