@@ -1,8 +1,6 @@
 package stream;
 
-import lombok.ToString;
 
-@ToString
 public class Employee {
 
     private String department;
