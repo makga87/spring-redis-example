@@ -1,4 +1,4 @@
-package test;
+package stream;
 
 import org.junit.jupiter.api.Test;
 import stream.Employee;
