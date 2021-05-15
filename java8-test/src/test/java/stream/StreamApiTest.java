@@ -3,10 +3,8 @@ package stream;
 import org.junit.jupiter.api.Test;
 import stream.Employee;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,6 +74,53 @@ class StreamApiTest {
 
         groupByDept.forEach((key, value) -> {
             System.out.println(key + " : " + value);
+        });
+    }
+
+    @Test
+    public void 리스트_VO로_변환() {
+
+        List<String> nameList = Arrays.asList("김코드", "박개발", "경영만", "최경영");
+
+        List<Employee> employeeList = nameList.stream()
+                .map(name -> {
+                    Employee employee = new Employee();
+                    employee.setName(name);
+                    return employee;
+                })
+                .collect(Collectors.toList());
+
+        employeeList.forEach(e -> {
+            System.out.println(e.getName());
+        });
+
+    }
+
+    @Test
+    public void 리스트_COLLECTORS_TO_MAP_변환() {
+
+        List<Employee> employees = Arrays.asList(
+                new Employee("개발팀", "김코드", 35),
+                new Employee("개발팀", "박개발", 19),
+                new Employee("경영팀", "경영만", 40),
+                new Employee("경영팀", "최경영", 25),
+                new Employee("기술지원팀", "오기술", 43),
+                new Employee("기술지원팀", "기술진", 27)
+        );
+
+        // Collectors.toMap의 마지막 인자는 중복키 처리
+        Map<String, Employee> deptMap = employees.stream()
+                .collect(Collectors.toMap(Employee::getDepartment, Function.identity(), (key1, key2)-> key1));
+
+        deptMap.forEach((key, value) -> {
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(key).append(" : ")
+                    .append(value.getDepartment()).append(", ")
+                    .append(value.getName()).append(", ")
+                    .append(value.getAge()).append("\n");
+
+            System.out.print(sb.toString());
         });
     }
 }
