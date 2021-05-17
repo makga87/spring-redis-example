@@ -36,4 +36,14 @@ class RegExpTest {
             System.out.println(s);
         }
     }
+
+    @Test
+    void 대괄호기준_분리() {
+        String str = "ST[2021-05-17]A[INFO]B[APP --> SVC]C[T.OAP1.0517173512681.0133213]D[]E[REQ]F[ECHALL]G Query time : 13";
+
+        String[] split = str.split("\\[(.*?)\\]");
+        for (String s : split) {
+            System.out.println(s);
+        }
+    }
 }
