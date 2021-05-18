@@ -110,7 +110,7 @@ class StreamApiTest {
 
         // Collectors.toMap의 마지막 인자는 중복키 처리
         Map<String, Employee> deptMap = employees.stream()
-                .collect(Collectors.toMap(Employee::getDepartment, Function.identity(), (key1, key2)-> key1));
+                .collect(Collectors.toMap(Employee::getDepartment, Function.identity(), (key1, key2) -> key1));
 
         deptMap.forEach((key, value) -> {
 
@@ -122,5 +122,23 @@ class StreamApiTest {
 
             System.out.print(sb.toString());
         });
+    }
+
+    @Test
+    public void 리스트_COUNT() {
+        List<Employee> employees = Arrays.asList(
+                new Employee("개발팀", "김코드", 35),
+                new Employee("개발팀", "박개발", 19),
+                new Employee("경영팀", "경영만", 40),
+                new Employee("경영팀", "최경영", 25),
+                new Employee("기술지원팀", "오기술", 43),
+                new Employee("기술지원팀", "기술진", 27)
+        );
+
+        long count = employees.stream()
+                .filter(emp-> emp.getDepartment().startsWith("기술"))
+                .count();
+
+        System.out.println(count);
     }
 }
