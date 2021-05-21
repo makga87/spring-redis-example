@@ -1,13 +1,12 @@
 package stream;
 
 import org.junit.jupiter.api.Test;
-import stream.Employee;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StreamApiTest {
 
@@ -136,7 +135,7 @@ class StreamApiTest {
         );
 
         long count = employees.stream()
-                .filter(emp-> emp.getDepartment().startsWith("기술"))
+                .filter(emp -> emp.getDepartment().startsWith("기술"))
                 .count();
 
         System.out.println(count);
