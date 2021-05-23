@@ -140,4 +140,28 @@ class StreamApiTest {
 
         System.out.println(count);
     }
+
+    @Test
+    public void 병렬스트림_스트림_로그_비교() {
+        List<Employee> employees = Arrays.asList(
+                new Employee("개발팀", "김코드", 35),
+                new Employee("개발팀", "박개발", 19),
+                new Employee("경영팀", "경영만", 40),
+                new Employee("경영팀", "최경영", 25),
+                new Employee("기술지원팀", "오기술", 43),
+                new Employee("기술지원팀", "기술진", 27)
+        );
+
+        employees
+                .stream()
+                .peek(employee ->
+                        System.out.println(Thread.currentThread().getName() + " -> stream : " + employee.getName()))
+                .collect(Collectors.toList());
+
+        employees
+                .parallelStream()
+                .peek(employee ->
+                        System.out.println(Thread.currentThread().getName() + " -> parallelStream : " + employee.getName()))
+                .collect(Collectors.toList());
+    }
 }
