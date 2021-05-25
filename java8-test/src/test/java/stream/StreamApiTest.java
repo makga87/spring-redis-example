@@ -163,5 +163,25 @@ class StreamApiTest {
                 .peek(employee ->
                         System.out.println(Thread.currentThread().getName() + " -> parallelStream : " + employee.getName()))
                 .collect(Collectors.toList());
+
+    }
+
+    @Test
+    public void 배열_STREAM_MATCH() {
+
+        int[] arr = {1, 2, 3, 4, 5, 6, 7};
+
+        // 전부 일치해야함
+        boolean allMatchResult = Arrays.stream(arr).allMatch(num -> num % 2 == 0);
+
+        // 하나라도 일치해야 함
+        boolean anyMatchResult = Arrays.stream(arr).anyMatch(num -> num % 2 == 0);
+
+        // 전부 일치하면 안됨.
+        boolean noneMatchResult = Arrays.stream(arr).noneMatch(num -> num % 2 == 0);
+
+        System.out.println(allMatchResult);
+        System.out.println(anyMatchResult);
+        System.out.println(noneMatchResult);
     }
 }
