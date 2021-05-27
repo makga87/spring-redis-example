@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class StreamApiTest {
 
@@ -183,5 +185,14 @@ class StreamApiTest {
         System.out.println(allMatchResult);
         System.out.println(anyMatchResult);
         System.out.println(noneMatchResult);
+    }
+
+    @Test
+    void REDUCTION_숫자_합() {
+
+        Stream<Integer> numbers = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        Optional<Integer> sum = numbers.reduce((x, y) -> x + y);
+        sum.ifPresent(s -> System.out.println(s));
+
     }
 }
