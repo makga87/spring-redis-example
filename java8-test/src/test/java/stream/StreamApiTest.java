@@ -195,4 +195,13 @@ class StreamApiTest {
         sum.ifPresent(s -> System.out.println(s));
 
     }
+
+    @Test
+    void 문자배열_스트림_변환(){
+        "abcdefg".chars()
+                .forEach(ch -> {
+                    System.out.println(ch);
+                    System.out.println((char)ch);
+                });
+    }
 }
