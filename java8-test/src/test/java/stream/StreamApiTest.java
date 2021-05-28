@@ -197,11 +197,37 @@ class StreamApiTest {
     }
 
     @Test
-    void 문자배열_스트림_변환(){
+    void 문자배열_스트림_변환() {
         "abcdefg".chars()
                 .forEach(ch -> {
                     System.out.println(ch);
-                    System.out.println((char)ch);
+                    System.out.println((char) ch);
                 });
+    }
+
+    @Test
+    void peek_forEach_차이() {
+
+        int[] arr = {1, 2, 3, 4, 5, 6, 7};
+
+        /*
+        peek 중간 처리 메서드로, 최종 처리 메서드를 만나기 전엔 연산을 진행하지 않는다.
+         */
+        Arrays.stream(arr)
+                .peek(num -> System.out.println("최종처리 없음 (peek) : " + num));
+
+        /*
+        중간 처리 메서드들은 최종 처리 메서드를 만나야 비로소 정상 동작한다.
+         */
+        Arrays.stream(arr)
+                .peek(num -> System.out.println("최종처리 존재 (peek) : " + num))
+                .sum();
+
+        /*
+        forEach는 최종처리(Terminal)메서드로 이 후, 특정 메서드를 호출하지 않아도
+        정상동작 한다.
+         */
+        Arrays.stream(arr)
+                .forEach(num -> System.out.println("자체가 최종처리 (forEach) : " + num));
     }
 }
