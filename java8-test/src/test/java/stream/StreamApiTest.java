@@ -2,6 +2,10 @@ package stream;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -229,5 +233,15 @@ class StreamApiTest {
          */
         Arrays.stream(arr)
                 .forEach(num -> System.out.println("자체가 최종처리 (forEach) : " + num));
+    }
+
+    @Test
+    void 스트림으로_파일읽기() throws IOException {
+
+        Path path = Paths.get("src/test/resources/stream_test.txt");
+        Stream<String> stringStream = Files.lines(path);
+        stringStream.forEach(line -> {
+            System.out.println(line);
+        });
     }
 }

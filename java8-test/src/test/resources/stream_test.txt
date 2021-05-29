@@ -1,0 +1,3 @@
+We can also use String as a source for creating a stream with the help of the chars() method of the String class.
+Since there is no interface for CharStream in JDK,
+we use the IntStream to represent a stream of chars instead.
