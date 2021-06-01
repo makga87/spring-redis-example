@@ -10,7 +10,6 @@ public class ShortestPath {
         else {
             return Math.min(DFS(L + 1, root.leftChild), DFS(L + 1, root.rightChild));
         }
-
     }
 
     public static void main(String[] args) {
