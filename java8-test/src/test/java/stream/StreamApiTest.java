@@ -243,5 +243,7 @@ class StreamApiTest {
         stringStream.forEach(line -> {
             System.out.println(line);
         });
+
     }
+
 }
