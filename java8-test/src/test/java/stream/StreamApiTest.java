@@ -246,4 +246,20 @@ class StreamApiTest {
 
     }
 
+    @Test
+    void FLATMAP_TEST() {
+        String[][] temp = new String[][]{
+                {"a", "b"}, {"c", "d"}, {"e", "a"}, {"a", "h"}, {"i", "j"}
+        };
+
+        Arrays.stream(temp)
+                .filter(data -> !"a".equals(data[0]) || !"a".equals(data[1]))
+                .forEach(data -> System.out.println("{" + data[0] + ", " + data[1] + "}"));
+
+        Arrays.stream(temp)
+                .flatMap(data -> Arrays.stream(data))
+                .filter(data -> !"a".equals(data))
+                .forEach(data -> System.out.println(data));
+    }
+
 }
