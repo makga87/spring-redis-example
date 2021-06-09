@@ -36,6 +36,26 @@ class FluxApiTest {
     }
 
     @Test
+    void FLUX_DO_ON_XXX_API() {
+        Flux<String> flux = Flux.just("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
+        System.out.println("=========== doOnCancel Test ===========");
+        flux
+                .log()
+                .doOnCancel(() -> {
+                    System.out.println("doOnCancel :)");
+                })
+                .subscribe(data -> System.out.println(data));
+
+        System.out.println("=========== doOnComplete Test ===========");
+        flux
+                .log()
+                .doOnComplete(() -> {
+                    System.out.println("doOnComplete :)");
+                })
+                .subscribe(data -> System.out.println(data));
+    }
+
+    @Test
     void 심플한_MONO를_테스트해본다() {
         Mono.just(1)
                 .log()
