@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.io.Flushable;
 import java.util.Arrays;
@@ -28,10 +29,46 @@ class FluxApiTest {
     }
 
     @Test
-    void FLUX_RANGE_API() {
+    void 심플한_FLUX_RANGE_API() {
         Flux<Integer> flux = Flux.range(1, 10);
         flux
                 .log()
+                .subscribe(data -> System.out.println(data));
+    }
+
+    @Test
+    void 맵과_FLUX_조합(){
+        Flux<Integer> flux = Flux.range(1, 5)
+                .map(num -> {
+                    if(num <= 3) return num;
+                    throw new RuntimeException("Over 3");
+                });
+
+        flux.subscribe(
+                num -> System.out.println(num),
+                error -> System.err.println("Error:" + error)
+                );
+
+
+    }
+
+    @Test
+    void FLUX_DO_ON_XXX_API() {
+        Flux<String> flux = Flux.just("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k");
+        System.out.println("=========== doOnCancel Test ===========");
+        flux
+                .log()
+                .doOnCancel(() -> {
+                    System.out.println("doOnCancel :)");
+                })
+                .subscribe(data -> System.out.println(data));
+
+        System.out.println("=========== doOnComplete Test ===========");
+        flux
+                .log()
+                .doOnComplete(() -> {
+                    System.out.println("doOnComplete :)");
+                })
                 .subscribe(data -> System.out.println(data));
     }
 
@@ -41,4 +78,5 @@ class FluxApiTest {
                 .log()
                 .subscribe(data -> System.out.println(data));
     }
+
 }
