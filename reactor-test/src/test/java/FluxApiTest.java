@@ -23,9 +23,16 @@ class FluxApiTest {
         Flux<String> flux = Flux.fromIterable(iterable);
 
         flux
-            .log()
-            .subscribe(data -> System.out.println(data));
+                .log()
+                .subscribe(data -> System.out.println(data));
+    }
 
+    @Test
+    void FLUX_RANGE_API() {
+        Flux<Integer> flux = Flux.range(1, 10);
+        flux
+                .log()
+                .subscribe(data -> System.out.println(data));
     }
 
     @Test
@@ -33,6 +40,5 @@ class FluxApiTest {
         Mono.just(1)
                 .log()
                 .subscribe(data -> System.out.println(data));
-
     }
 }
