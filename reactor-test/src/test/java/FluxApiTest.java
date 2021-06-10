@@ -37,6 +37,7 @@ class FluxApiTest {
 
     @Test
     void 맵과_FLUX_조합(){
+
         Flux<Integer> flux = Flux.range(1, 5)
                 .map(num -> {
                     if(num <= 3) return num;
