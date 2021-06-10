@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 import java.io.Flushable;
 import java.util.Arrays;
@@ -29,7 +28,7 @@ class FluxApiTest {
     }
 
     @Test
-    void 심플한_FLUX_RANGE_API() {
+    void FLUX_RANGE_API() {
         Flux<Integer> flux = Flux.range(1, 10);
         flux
                 .log()
@@ -78,5 +77,4 @@ class FluxApiTest {
                 .log()
                 .subscribe(data -> System.out.println(data));
     }
-
 }
