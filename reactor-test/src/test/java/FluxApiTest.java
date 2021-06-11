@@ -3,6 +3,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.Flushable;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,20 +37,49 @@ class FluxApiTest {
     }
 
     @Test
-    void 맵과_FLUX_조합(){
+    void 맵과_FLUX_조합() {
 
         Flux<Integer> flux = Flux.range(1, 5)
                 .map(num -> {
-                    if(num <= 3) return num;
+                    if (num <= 3) return num;
                     throw new RuntimeException("Over 3");
                 });
 
         flux.subscribe(
                 num -> System.out.println(num),
                 error -> System.err.println("Error:" + error)
-                );
+        );
+    }
 
+//    @Test
+//    void FLUX_INTERVAL_TEST() {
+//
+//        Flux.interval(Duration.ofSeconds(3))
+//                .take(3)
+//                .log()
+//                .subscribe(data -> System.out.println(data));
+//    }
 
+    @Test
+    void FLUX_ZIP_TEST() {
+        Mono<String> monoA = Mono.just("monoA");
+        Mono<String> monoB = Mono.just("monoB");
+
+        Flux<String> fluxAtoC = Flux.just("fluxA", "fluxB", "fluxC");
+        Flux<String> fluxDtoF = Flux.just("fluxD", "fluxE", "fluxF");
+
+        Mono.zip(monoA, monoB)
+                .log()
+                .subscribe(data -> {
+                    System.out.println(data);
+                });
+
+        Flux.zip(fluxAtoC, fluxDtoF)
+                .log()
+                .subscribe(data -> {
+                    System.out.println("T1 : " + data.getT1());
+                    System.out.println("T2 : " + data.getT2());
+                });
     }
 
     @Test
