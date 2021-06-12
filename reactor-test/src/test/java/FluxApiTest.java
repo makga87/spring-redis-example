@@ -1,10 +1,13 @@
 import org.junit.jupiter.api.Test;
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.Flushable;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -80,6 +83,39 @@ class FluxApiTest {
                     System.out.println("T1 : " + data.getT1());
                     System.out.println("T2 : " + data.getT2());
                 });
+    }
+
+    @Test
+    void FLUX_DISTINCT_API_TEST() {
+        Flux<String> flux = Flux.just("a", "a", "a", "a", "b", "b", "B", "A", "C", "c");
+        flux.log()
+                .distinct()
+                .subscribe(data -> System.out.println(data));
+    }
+
+    @Test
+    void FLUX_GROUP_BY_API_TEST() {
+        Flux<String> flux1 = Flux.just("a", "a", "a", "a", "b", "b", "B", "A", "C", "c");
+        Flux<String> flux2 = Flux.just("a", "a", "b", "b", "c");
+        Flux.merge(flux1, flux2)
+                .log()
+                .groupBy(data -> data)
+                .concatMap(groupedFlux -> groupedFlux.count()
+                        .map(count -> {
+                            LinkedHashMap<String, Long> countMap = new LinkedHashMap<>();
+                            countMap.put(groupedFlux.key(), count);
+                            return countMap;
+                        }))
+                .reduce((accumulate, current) ->
+                        new LinkedHashMap<String, Long>() {
+                            {
+                                putAll(accumulate);
+                                putAll(current);
+                            }
+                        })
+                .subscribe(data -> System.out.println(data.toString()));
+
+
     }
 
     @Test
