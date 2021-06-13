@@ -1,14 +1,14 @@
 import org.junit.jupiter.api.Test;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.Flushable;
+import java.lang.reflect.Array;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -115,7 +115,37 @@ class FluxApiTest {
                         })
                 .subscribe(data -> System.out.println(data.toString()));
 
+    }
 
+    @Test
+    void FLUX_SUBSCRIBER_써보기(){
+
+        ArrayList<Integer> arrayList = new ArrayList<>();
+
+        Flux.just(1, 2, 3, 4, 5)
+                .log()
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onSubscribe(Subscription subscription) {
+                        subscription.request(Long.MAX_VALUE);
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        arrayList.add(integer);
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+        arrayList.stream()
+                .forEach(System.out::println);
     }
 
     @Test
