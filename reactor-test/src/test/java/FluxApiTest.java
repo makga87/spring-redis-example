@@ -55,15 +55,6 @@ class FluxApiTest {
         );
     }
 
-//    @Test
-//    void FLUX_INTERVAL_TEST() {
-//
-//        Flux.interval(Duration.ofSeconds(3))
-//                .take(3)
-//                .log()
-//                .subscribe(data -> System.out.println(data));
-//    }
-
     @Test
     void FLUX_TO_OBJECT() {
 
