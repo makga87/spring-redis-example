@@ -1,3 +1,4 @@
+import dto.Employee;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -64,6 +65,25 @@ class FluxApiTest {
 //    }
 
     @Test
+    void FLUX_TO_OBJECT() {
+
+        Mono<List<Employee>> monoList = Flux.just(
+                new Employee(1, "김삿갓", 20, "기획팀"),
+                new Employee(2, "박수박", 25, "개발팀"),
+                new Employee(3, "토마토", 33, "경영팀")
+        ).log().collectList();
+
+       List<Employee> employees = monoList.block();
+       employees.forEach(emp -> {
+           System.out.print(emp.getId() + ", ");
+           System.out.print(emp.getName() + ", ");
+           System.out.print(emp.getAge() + ", ");
+           System.out.print(emp.getDepartment());
+           System.out.println();
+       });
+    }
+
+    @Test
     void FLUX_ZIP_TEST() {
         Mono<String> monoA = Mono.just("monoA");
         Mono<String> monoB = Mono.just("monoB");
@@ -118,7 +138,7 @@ class FluxApiTest {
     }
 
     @Test
-    void FLUX_SUBSCRIBER_써보기(){
+    void FLUX_SUBSCRIBER_써보기() {
 
         ArrayList<Integer> arrayList = new ArrayList<>();
 
