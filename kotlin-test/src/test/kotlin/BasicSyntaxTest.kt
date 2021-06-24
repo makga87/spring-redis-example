@@ -28,4 +28,22 @@ internal class BasicSyntaxTest {
     fun printSum(a: Int, b: Int): Unit {
         println("sum of $a and $b is ${a + b}");
     }
+
+    @Test
+    fun collectionTest() {
+        val numbers = listOf(1, 2, 3, 4, 5, 6, 7)
+
+        /**
+         * 처음 걸리는 조건에 대해서만 출력을 한다.
+         */
+        when {
+            1 in numbers -> println("number one")
+            2 in numbers -> println("number two")
+        }
+
+        numbers
+            .filter { num -> num % 2 == 0 }
+            .map{num -> num * 10}
+            .forEach { num -> println(num) }
+    }
 }
