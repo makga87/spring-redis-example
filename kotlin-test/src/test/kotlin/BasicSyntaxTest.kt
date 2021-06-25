@@ -43,7 +43,21 @@ internal class BasicSyntaxTest {
 
         numbers
             .filter { num -> num % 2 == 0 }
-            .map{num -> num * 10}
+            .map { num -> num * 10 }
             .forEach { num -> println(num) }
+    }
+
+    @Test
+    fun takingFunctionAsParameter() {
+        val test1 = calculate(4, 6, ::sum)
+        println(test1)
+        val test2 = calculate(4, 6) { a, b -> a * b }
+        println(test2)
+    }
+
+    fun sum(x: Int, y: Int) = x + y;
+
+    fun calculate(x: Int, y: Int, operation: (Int, Int) -> Int): Int {
+        return operation(x, y)
     }
 }
