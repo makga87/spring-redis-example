@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions.*
 import kotlin.test.Test
 
 internal class ScopeFunctionsTest {
@@ -45,18 +44,33 @@ internal class ScopeFunctionsTest {
 
     @Test
     fun applyTest1() {
-        val tom = Person()
+        val tom = Person("Gabriel", 100, "Angel")
 
         val whoIsTom = tom.apply {
             name = "Tom"
             age = 35
             desc = "Web developer"
         }
+
+        println(whoIsTom.name)
+        println(whoIsTom.age)
+        println(whoIsTom.desc)
     }
 
-    class Person() {
-        var name: String = ""
-        var age: Int = 0
-        var desc: String =""
+    @Test
+    fun alsoTest1() {
+        val person = Person("Gabriel", 100, "Angel")
+            .also {
+                println(it)
+                println("${it.name}, ${it.age}, ${it.desc}")
+            }
+        println("${person.name}, ${person.age}, ${person.desc}")
+
+    }
+
+    class Person(name: String, age: Int, desc: String) {
+        var name: String = name
+        var age: Int = age
+        var desc: String = desc
     }
 }
