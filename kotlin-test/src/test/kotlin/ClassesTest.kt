@@ -31,4 +31,39 @@ internal class ClassesTest {
         println("name = ${user.component1()}")
         println("id = ${user.component2()}")
     }
+
+    enum class State {
+        IDLE, RUNNING, FINISHED
+    }
+
+    @Test
+    fun enumClassTest1() {
+        val state = State.RUNNING
+
+        val message = when (state) {
+            State.IDLE -> "It is idle"
+            State.RUNNING -> "It is running"
+            State.FINISHED -> "It is finished"
+        }
+
+        println(message)
+    }
+
+    enum class Color(val rgb: Int) {
+        RED(0xFF0000),
+        GREEN(0x00FF00),
+        BLUE(0x0000FF),
+        YELLOW(0xFFFF00);
+
+        fun containsRed() = (this.rgb and 0xFF0000 != 0)
+    }
+
+    @Test
+    fun enumClassTest2(){
+        val red = Color.RED
+        println(red)
+        println(red.containsRed())
+        println(Color.BLUE.containsRed())
+        println(Color.YELLOW.containsRed())
+    }
 }
