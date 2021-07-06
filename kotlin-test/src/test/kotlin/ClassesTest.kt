@@ -66,4 +66,22 @@ internal class ClassesTest {
         println(Color.BLUE.containsRed())
         println(Color.YELLOW.containsRed())
     }
+
+    sealed class Mammal(val name:String)
+
+    class Cat(val catName : String) : Mammal(catName)
+    class Human(val humanName : String, val job : String) : Mammal(humanName)
+
+    fun greetMammal(mammal : Mammal) : String {
+        when (mammal) {
+            is Human -> return "Hello ${mammal.name}; You're working as a ${mammal.job}"
+            is Cat -> return "Hi ${mammal.name};"
+        }
+    }
+
+    @Test
+    fun sealedClassTest(){
+        println(greetMammal(Cat("Miao")))
+        println(greetMammal(Human("Mr. Park", "Developer")))
+    }
 }
