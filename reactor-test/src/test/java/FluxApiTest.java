@@ -2,16 +2,21 @@ import dto.Employee;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
-import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.Flushable;
-import java.lang.reflect.Array;
-import java.time.Duration;
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 class FluxApiTest {
 
@@ -184,5 +189,29 @@ class FluxApiTest {
         Mono.just(1)
                 .log()
                 .subscribe(data -> System.out.println(data));
+    }
+
+    @Test
+    void FLUX로_파일쓰기를_테스트해본다() throws IOException {
+
+        String fileName = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".txt";
+        File file = new File("src/test/file/", fileName);
+        file.createNewFile();
+
+        BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+
+        Flux<String> flux = Flux.just("FLUX", "로", "파일쓰기를", "테스트", "해본다.", "순서대로", "나오는지", "보자");
+
+        flux
+                .log()
+                .subscribe(data -> {
+                    System.out.println(Thread.currentThread().getName() + " " + data);
+                    try {
+                        Files.newOutputStream(Paths.get("src/test/file/" + fileName), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
     }
 }
