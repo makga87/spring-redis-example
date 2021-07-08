@@ -5,10 +5,10 @@ import org.reactivestreams.Subscription;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
@@ -194,24 +194,35 @@ class FluxApiTest {
     @Test
     void FLUX로_파일쓰기를_테스트해본다() throws IOException {
 
-        String fileName = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".txt";
-        File file = new File("src/test/file/", fileName);
-        file.createNewFile();
+        StringBuilder sb = new StringBuilder();
+        String fileName = sb
+                .append(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .append(".txt")
+                .toString();
 
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get(file.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        String filePath = "src/test/file";
+
+        File file = new File(filePath, fileName);
+        file.createNewFile();
 
         Flux<String> flux = Flux.just("FLUX", "로", "파일쓰기를", "테스트", "해본다.", "순서대로", "나오는지", "보자");
 
         flux
-                .log()
-                .subscribe(data -> {
-                    System.out.println(Thread.currentThread().getName() + " " + data);
-                    try {
-                        Files.newOutputStream(Paths.get("src/test/file/" + fileName), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+            .log()
+            .subscribe(data -> {
+                System.out.println(Thread.currentThread().getName() + " " + data);
+                try {
+                    StringBuilder databuff = new StringBuilder();
+                    databuff
+                            .append(data)
+                            .append(System.lineSeparator());
 
+                    FileChannel.open(Paths.get(file.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.APPEND)
+                            .write(ByteBuffer.wrap(databuff.toString().getBytes()));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
     }
 }
