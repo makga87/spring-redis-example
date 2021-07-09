@@ -11,6 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,14 +70,14 @@ class FluxApiTest {
                 new Employee(3, "토마토", 33, "경영팀")
         ).log().collectList();
 
-       List<Employee> employees = monoList.block();
-       employees.forEach(emp -> {
-           System.out.print(emp.getId() + ", ");
-           System.out.print(emp.getName() + ", ");
-           System.out.print(emp.getAge() + ", ");
-           System.out.print(emp.getDepartment());
-           System.out.println();
-       });
+        List<Employee> employees = monoList.block();
+        employees.forEach(emp -> {
+            System.out.print(emp.getId() + ", ");
+            System.out.print(emp.getName() + ", ");
+            System.out.print(emp.getAge() + ", ");
+            System.out.print(emp.getDepartment());
+            System.out.println();
+        });
     }
 
     @Test
@@ -208,21 +209,31 @@ class FluxApiTest {
         Flux<String> flux = Flux.just("FLUX", "로", "파일쓰기를", "테스트", "해본다.", "순서대로", "나오는지", "보자");
 
         flux
-            .log()
-            .subscribe(data -> {
-                System.out.println(Thread.currentThread().getName() + " " + data);
-                try {
-                    StringBuilder databuff = new StringBuilder();
-                    databuff
-                            .append(data)
-                            .append(System.lineSeparator());
+                .log()
+                .subscribe(data -> {
+                    System.out.println(Thread.currentThread().getName() + " " + data);
+                    try {
+                        StringBuilder databuff = new StringBuilder();
+                        databuff
+                                .append(data)
+                                .append(System.lineSeparator());
 
-                    FileChannel.open(Paths.get(file.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.APPEND)
-                            .write(ByteBuffer.wrap(databuff.toString().getBytes()));
+                        FileChannel.open(Paths.get(file.getAbsolutePath()), StandardOpenOption.CREATE, StandardOpenOption.APPEND)
+                                .write(ByteBuffer.wrap(databuff.toString().getBytes()));
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+
+    /**
+     * 로그가 잘 안찍힘
+     */
+    @Test
+    void FLUX_DELAY를_테스트한다() {
+//        Flux<Long> flux = Flux.interval(Duration.ofSeconds(5000));
+//        flux.subscribe(n -> System.out.println(n));
+
     }
 }
