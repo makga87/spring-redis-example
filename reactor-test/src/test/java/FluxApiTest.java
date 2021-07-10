@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+
 class FluxApiTest {
 
     @Test
@@ -204,6 +205,9 @@ class FluxApiTest {
         String filePath = "src/test/file";
 
         File file = new File(filePath, fileName);
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+        }
         file.createNewFile();
 
         Flux<String> flux = Flux.just("FLUX", "로", "파일쓰기를", "테스트", "해본다.", "순서대로", "나오는지", "보자");
@@ -211,7 +215,6 @@ class FluxApiTest {
         flux
                 .log()
                 .subscribe(data -> {
-                    System.out.println(Thread.currentThread().getName() + " " + data);
                     try {
                         StringBuilder databuff = new StringBuilder();
                         databuff
@@ -225,6 +228,8 @@ class FluxApiTest {
                         e.printStackTrace();
                     }
                 });
+
+        System.out.println("테스트의 끝");
     }
 
     /**
@@ -232,8 +237,8 @@ class FluxApiTest {
      */
     @Test
     void FLUX_DELAY를_테스트한다() {
-//        Flux<Long> flux = Flux.interval(Duration.ofSeconds(5000));
-//        flux.subscribe(n -> System.out.println(n));
-
+        Flux.interval(Duration.ofSeconds(1))
+                .map(n -> n + "초")
+                .subscribe(n -> System.out.println("TEST"));
     }
 }
