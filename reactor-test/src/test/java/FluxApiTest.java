@@ -213,7 +213,6 @@ class FluxApiTest {
         Flux<String> flux = Flux.just("FLUX", "로", "파일쓰기를", "테스트", "해본다.", "순서대로", "나오는지", "보자");
 
         flux
-                .log()
                 .subscribe(data -> {
                     try {
                         StringBuilder databuff = new StringBuilder();
@@ -232,13 +231,16 @@ class FluxApiTest {
         System.out.println("테스트의 끝");
     }
 
-    /**
-     * 로그가 잘 안찍힘
-     */
+
     @Test
-    void FLUX_DELAY를_테스트한다() {
-        Flux.interval(Duration.ofSeconds(1))
-                .map(n -> n + "초")
-                .subscribe(n -> System.out.println("TEST"));
+    void FLUX_DELAY를_테스트한다() throws InterruptedException {
+        Flux<String> flux = Flux.interval(Duration.ofMillis(250))
+                .map(input -> {
+                    if (input < 3) return "tick " + input;
+                    throw new RuntimeException("boom");
+                })
+                .onErrorReturn("Uh oh");
+        flux.subscribe(System.out::println);
+        Thread.sleep(2100);
     }
 }
