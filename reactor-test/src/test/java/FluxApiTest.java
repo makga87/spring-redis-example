@@ -2,6 +2,7 @@ import dto.Employee;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -242,5 +243,25 @@ class FluxApiTest {
                 .onErrorReturn("Uh oh");
         flux.subscribe(System.out::println);
         Thread.sleep(2100);
+    }
+
+    @Test
+    void FLUX_BASE_SUBSCRIBER() {
+        Flux.range(1, 10)
+                .doOnRequest(r -> System.out.println("request of " + r))
+                .subscribe(new BaseSubscriber<Integer>() {
+
+                    @Override
+                    public void hookOnSubscribe(Subscription subscription) {
+                        request(7);
+//                        requestUnbounded();
+                    }
+
+                    @Override
+                    public void hookOnNext(Integer integer) {
+                        System.out.println("Cancelling after having received " + integer);
+//                        cancel();
+                    }
+                });
     }
 }
