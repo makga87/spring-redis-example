@@ -264,4 +264,24 @@ class FluxApiTest {
                     }
                 });
     }
+
+    @Test
+    void FLUX_LIMIT_RATE() {
+
+//        Flux
+//                .range(0, 100)
+//                .log()
+//                .subscribe(System.out::println,
+//                        System.out::println,
+//                        () -> {
+//                        },
+//                        s -> s.request(1000));
+
+        Flux
+                .range(0, 100)
+                .log()
+                .limitRate(10, 2)
+                .delayElements(Duration.ofMillis(100))
+                .subscribe(System.out::println);
+    }
 }
