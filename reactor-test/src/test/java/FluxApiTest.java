@@ -268,20 +268,28 @@ class FluxApiTest {
     @Test
     void FLUX_LIMIT_RATE() {
 
-//        Flux
-//                .range(0, 100)
-//                .log()
-//                .subscribe(System.out::println,
-//                        System.out::println,
-//                        () -> {
-//                        },
-//                        s -> s.request(1000));
-
         Flux
                 .range(0, 100)
                 .log()
                 .limitRate(10, 2)
                 .delayElements(Duration.ofMillis(100))
                 .subscribe(System.out::println);
+    }
+
+    @Test
+    void FLUX_SINK() {
+        Flux<String> flux = Flux.create(fluxSink -> {
+            fluxSink.onRequest(request -> {
+                fluxSink.next("TEST1");
+                fluxSink.next("TEST2");
+                fluxSink.next("TEST3");
+            });
+        });
+
+        flux
+                .log()
+                .subscribe(data -> {
+                    System.out.println(data);
+                });
     }
 }
