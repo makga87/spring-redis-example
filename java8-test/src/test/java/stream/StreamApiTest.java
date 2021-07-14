@@ -262,4 +262,54 @@ class StreamApiTest {
                 .forEach(data -> System.out.println(data));
     }
 
+
+    @Test
+    void LIST_TOMAP_TEST() {
+
+        StringBuilder sb = new StringBuilder();
+
+        List<TestVo> testVoList = Arrays.asList(
+                new TestVo(1, "1/1234/1"),
+                new TestVo(2, "2/1234/2"),
+                new TestVo(3, "3/1234/3")
+        );
+
+        Map<Integer, String> map = testVoList.stream().collect(Collectors.toMap(TestVo::getId, TestVo::getTemp));
+
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        numbers.stream()
+                .forEach(n -> {
+                    if (map.containsKey(n)) sb.append(map.get(n)).append(",");
+                    else sb.append(n).append("/0/0,");
+                });
+        System.out.println(sb.toString());
+    }
+
+    class TestVo {
+
+        int id;
+        String temp;
+
+        public TestVo(int id, String temp) {
+            this.id = id;
+            this.temp = temp;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTemp() {
+            return temp;
+        }
+
+        public void setTemp(String temp) {
+            this.temp = temp;
+        }
+    }
 }
