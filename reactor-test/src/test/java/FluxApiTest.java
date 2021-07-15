@@ -277,13 +277,33 @@ class FluxApiTest {
     }
 
     @Test
-    void FLUX_SINK() {
+    void FLUX_SINK1() {
         Flux<String> flux = Flux.create(fluxSink -> {
             fluxSink.onRequest(request -> {
                 fluxSink.next("TEST1");
                 fluxSink.next("TEST2");
                 fluxSink.next("TEST3");
             });
+        });
+
+        flux
+                .log()
+                .subscribe(data -> {
+                    System.out.println(data);
+                });
+    }
+
+    @Test
+    void FLUX_SINK2() {
+
+        Flux<String> flux = Flux.create(fluxSink -> {
+            fluxSink.onRequest(request -> {
+                fluxSink.next("TEST1");
+                fluxSink.next("TEST2");
+                fluxSink.next("TEST3");
+                fluxSink.complete();
+            });
+            fluxSink.onDispose(() -> System.out.println("onDispose"));
         });
 
         flux
