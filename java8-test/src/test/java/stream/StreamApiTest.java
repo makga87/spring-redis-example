@@ -2,6 +2,9 @@ package stream;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.FileDescriptor;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -311,5 +314,21 @@ class StreamApiTest {
         public void setTemp(String temp) {
             this.temp = temp;
         }
+    }
+
+    @Test
+    void 스트림으로_여러파일_읽기() throws IOException {
+        Path path = Paths.get("src/test/resources/files/");
+        Files.walk(path, 1)
+                .filter(file -> !Files.isDirectory(file))
+                .filter(file -> {
+                    String fileName = file.getFileName().toString();
+                    int lastIndex = fileName.lastIndexOf(".");
+                    return ".csv".equals(fileName.substring(lastIndex));
+                })
+                .forEach(file -> {
+                    System.out.println(file.getFileName());
+                });
+
     }
 }
