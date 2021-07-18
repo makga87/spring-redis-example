@@ -2,10 +2,7 @@ package stream;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.FileDescriptor;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +13,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 class StreamApiTest {
 
@@ -320,9 +319,9 @@ class StreamApiTest {
     void 스트림으로_여러파일_읽기() throws IOException {
         Path path = Paths.get("src/test/resources/files/");
         Files.walk(path, 1)
-                .filter(file -> !Files.isDirectory(file))
-                .filter(file -> {
-                    String fileName = file.getFileName().toString();
+                .filter(filePath -> !Files.isDirectory(filePath))
+                .filter(filePath -> {
+                    String fileName = filePath.getFileName().toString();
                     int lastIndex = fileName.lastIndexOf(".");
                     return ".csv".equals(fileName.substring(lastIndex));
                 })
@@ -336,8 +335,37 @@ class StreamApiTest {
      * TODO : 파일리스트 각각 파일 압축
      */
     @Test
-    void 스트림으로_여러파일_압축하기() {
+    void 스트림으로_여러파일_압축하기() throws IOException {
+        Path path = Paths.get("src/test/resources/files/");
+        Files.walk(path, 1)
+                .filter(filePath -> !Files.isDirectory(filePath))
+                .filter(filePath -> {
+                    String fileName = filePath.getFileName().toString();
+                    int lastIndex = fileName.lastIndexOf(".");
+                    return ".csv".equals(fileName.substring(lastIndex));
+                })
+                .forEach(filePath -> {
+                    int lastIndex = filePath.toFile().getName().lastIndexOf(".");
+                    String fileName = filePath.toFile().getName().substring(0, lastIndex) + ".zip";
+                    try (
+                            ZipOutputStream zipOutputStream = new ZipOutputStream(
+                                    new FileOutputStream("src/test/resources/files/" + fileName)
+                            );
+                            FileInputStream fileInputStream = new FileInputStream(filePath.toFile());
+                    ) {
+                        ZipEntry zipEntry = new ZipEntry(filePath.toFile().getName());
+                        zipOutputStream.putNextEntry(zipEntry);
 
+                        byte[] bytes = new byte[1024];
+                        int length;
+                        while ((length = fileInputStream.read(bytes)) >= 0) {
+                            zipOutputStream.write(bytes, 0, length);
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                });
     }
 
     /**
