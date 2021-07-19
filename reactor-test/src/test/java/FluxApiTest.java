@@ -105,6 +105,21 @@ class FluxApiTest {
     }
 
     @Test
+    void FLUX_MERGE_MERGEWITH_TEST() {
+
+        Flux<String> fluxBase = Flux.empty();
+        Flux<String> fluxAtoC = Flux.just("fluxA", "fluxB", "fluxC");
+        Flux<String> fluxDtoF = Flux.just("fluxD", "fluxE", "fluxF");
+
+        fluxBase
+                .mergeWith(fluxAtoC)
+                .mergeWith(fluxDtoF)
+                .log()
+                .subscribe();
+
+    }
+
+    @Test
     void FLUX_DISTINCT_API_TEST() {
         Flux<String> flux = Flux.just("a", "a", "a", "a", "b", "b", "B", "A", "C", "c");
         flux.log()
