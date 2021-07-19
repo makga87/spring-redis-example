@@ -327,4 +327,19 @@ class FluxApiTest {
                     System.out.println(data);
                 });
     }
+
+    @Test
+    void FLUX_INTO_FLUX() {
+
+        Flux<Integer> fluxInteger = Flux.just(1, 2, 3, 4);
+        Flux<String> fluxString = Flux.just("a", "b", "c", "d");
+        fluxInteger
+                .log()
+                .subscribe(data -> {
+                    fluxString
+                            .map(str -> data + str)
+                            .log()
+                            .subscribe();
+                });
+    }
 }
