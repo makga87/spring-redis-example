@@ -1,17 +1,22 @@
 package stream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -366,6 +371,21 @@ class StreamApiTest {
                         System.out.println(e);
                     }
                 });
+    }
+
+    @Test
+    void SHA256_해시() throws NoSuchAlgorithmException {
+        String fileName = "해시함수를적용해본다.";
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(fileName.getBytes(StandardCharsets.UTF_8));
+        byte[] byteArr = md.digest();
+
+        StringBuilder builder = new StringBuilder();
+        for (byte b : byteArr) {
+            builder.append(String.format(("%02x"), b));
+        }
+
+        System.out.println(builder.toString());
     }
 
     /**
