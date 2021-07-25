@@ -3,9 +3,8 @@ package stream;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.text.html.Option;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,5 +51,27 @@ class OptionalApiTest {
                 .orElse(0);
 
         System.out.println(nameLength);
+    }
+
+    @Test
+    void Optinal_리스트_NULL_SAFETY하게_적용해보기() {
+        List<String> nameArr = Arrays.asList("A", "B", "C");
+
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            System.out.println("Optional.ofNullable을 사용해도, ArrayIndexOutOfBounds예외는 발생한다.");
+            Optional.ofNullable(nameArr.get(3));
+        });
+
+        Optional<String> nameResult = getAsOptional(nameArr, 3);
+        String result = nameResult.orElseGet(() -> "Not exist name");
+        System.out.println(result);
+    }
+
+    public static <T> Optional<T> getAsOptional(List<T> list, int index) {
+        try {
+            return Optional.of(list.get(index));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return Optional.empty();
+        }
     }
 }
