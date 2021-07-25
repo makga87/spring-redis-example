@@ -3,6 +3,8 @@ package stream;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.text.html.Option;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,5 +38,19 @@ class OptionalApiTest {
 
         System.out.println(name2);
 
+    }
+
+    @Test
+    void Optional_맵_응용() {
+        Map<Integer, String> empName = new HashMap<>();
+        empName.put(1, "김갑룡");
+        empName.put(2, "김을룡");
+        empName.put(3, "김병룡");
+
+        int nameLength = Optional.ofNullable(empName.get(2))
+                .map(String::length)
+                .orElse(0);
+
+        System.out.println(nameLength);
     }
 }
