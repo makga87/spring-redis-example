@@ -75,4 +75,21 @@ class OptionalApiTest {
         }
     }
 
+    @Test
+    void orElse_orElseGet차이_Null(){
+
+        Employee employee = null;
+        Employee _employee = null;
+        /**
+         * orElse 는 Optional.of 의 값이 Null 여부 관계 없이 일단 호출하고, null 인 경우 반환한다. (선 준비)
+         */
+        Employee result = Optional.of(employee).orElse(_employee);
+
+        /**
+         * orElseGet은 Optional.of 의 값이 Null인 경우에만 호출 한다. (후 준비)
+         */
+        Employee _result = Optional.of(employee).orElseGet(()->_employee);
+
+    }
+
 }
