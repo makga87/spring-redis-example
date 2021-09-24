@@ -1,9 +1,10 @@
 package stream;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,7 +17,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -395,4 +395,21 @@ class StreamApiTest {
     void 파일_메타데이터_생성하기() {
 
     }
+
+    @Test
+    void 반환값이_NULL인경우_Collectors_toList() {
+
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+
+        List<Object> collectList = list
+                .stream()
+                .map(num -> {
+                    return null;
+                })
+                .collect(Collectors.toList());
+
+        System.out.println(collectList.toString());
+
+    }
+
 }

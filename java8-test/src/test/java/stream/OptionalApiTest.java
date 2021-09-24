@@ -92,4 +92,42 @@ class OptionalApiTest {
 
     }
 
+    @Test
+    void Null인경우_map은_정상동작(){
+        Employee employee = null;
+        Optional.ofNullable(employee)
+                .map(emp -> {
+                    System.out.println("emp="+emp);
+                    return emp;
+                });
+
+    }
+
+    @Test
+    void Null인경우_orElseThrow은_정상동작() throws Exception {
+        Employee employee = null;
+        Optional.ofNullable(employee)
+                .map(emp -> {
+                    System.out.println("emp="+emp.getName());
+                    return emp;
+                })
+                .orElseThrow(()->{
+                    return new Exception("employee is null");
+                });
+
+    }
+
+    @Test
+    void Null인경우_orElseThrow은_정상동작2() throws Exception {
+        Employee employee = new Employee();
+        Optional.ofNullable(employee)
+                .map(emp -> {
+                    System.out.println("emp="+emp.getName());
+                    return emp;
+                })
+                .orElseThrow(()->{
+                    return new Exception("employee is null");
+                });
+
+    }
 }
