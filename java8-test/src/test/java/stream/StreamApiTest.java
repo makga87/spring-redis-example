@@ -406,6 +406,7 @@ class StreamApiTest {
                 .map(num -> {
                     return null;
                 })
+                .filter(value -> value !=null)
                 .collect(Collectors.toList());
 
         System.out.println(collectList.toString());
