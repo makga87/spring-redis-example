@@ -3,16 +3,16 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
   db: # 서비스 명
     image: mysql:5.7 # 사용할 이미지
     restart: always
-    container_name: api-test # 컨테이너 이름 설정
+    container_name: spring_context_test # 컨테이너 이름 설정
     ports:
-      - "3307:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)  <- 컨테이너 내부는 무조건 3306
+      - "13307:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)  <- 컨테이너 내부는 무조건 3306
     environment: # -e 옵션
-      - MYSQL_DATABASE=api-test
+      - MYSQL_DATABASE=spring_context_test
       - MYSQL_ROOT_PASSWORD=redhatxen  # MYSQL 패스워드 설정 옵션
       - TZ=Asia/Seoul
 
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
-#    volumes:
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # -v 옵션 (다렉토리 마운트 설정)
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

@@ -3,4 +3,4 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: redhatxen
-    url: "jdbc:mysql://localhost:3307/api-test?createDatabaseIfNotExist=true"
+    url: "jdbc:mysql://localhost:13307/spring_context_test"
