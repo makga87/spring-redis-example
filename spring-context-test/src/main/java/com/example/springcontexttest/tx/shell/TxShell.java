@@ -4,6 +4,9 @@ import com.example.springcontexttest.tx.srv.TxSrv;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+/**
+ * TransactionInterceptor, TransactionManager, PlatformTransactionManager
+ */
 @ShellComponent
 public class TxShell {
     private final TxSrv txSrv;
@@ -40,8 +43,6 @@ public class TxShell {
     public void txTest6() throws Exception {
         txSrv.insert10TimesFor_throwRuntimeExceptionTransaction();
     }
-
-
 
     @ShellMethod(value = "stream에서 예외를 try-catch로 잡는 경우, 예외 발생 케이스를 제외한 쿼리들은 그대로 진행한다", key = "tx-case7")
     public void txTest7(){
