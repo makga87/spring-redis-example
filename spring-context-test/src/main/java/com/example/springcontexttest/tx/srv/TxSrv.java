@@ -158,13 +158,52 @@ public class TxSrv {
                 });
     }
 
+
+
+    @Transactional(rollbackFor = {Exception.class})
+    public void insert3Times_private() throws Exception {
+        private_insert1();
+        private_insert2();
+        private_insert3();
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    public void insert3Times_public() throws Exception {
+        public_insert1();
+        public_insert2();
+        public_insert3();
+    }
+
+    private void private_insert1(){
+        memberRepo.insert(new Member(1l, "test" + 1));
+    }
+    private void private_insert2(){
+        memberRepo.insert(new Member(2l, "test" + 2));
+
+    }
+    private void private_insert3() throws Exception {
+        memberRepo.insert(new Member(null, "test" + 3));
+    }
+
+    public void public_insert1(){
+        memberRepo.insert(new Member(1l, "test" + 1));
+    }
+    public void public_insert2(){
+        memberRepo.insert(new Member(2l, "test" + 2));
+
+    }
+    public void public_insert3() throws Exception {
+        memberRepo.insert(new Member(null, "test" + 3));
+    }
+
+
     public void delete() {
         memberRepo.delete();
     }
 
     public List<Member> getManyMembers(int memberCnt) {
         List<Member> memberList = new ArrayList<>();
-        for (int i = 1; i <= memberCnt; i++) {
+        for (long i = 1; i <= memberCnt; i++) {
             memberList.add(new Member(i, "test" + i));
         }
         return memberList;

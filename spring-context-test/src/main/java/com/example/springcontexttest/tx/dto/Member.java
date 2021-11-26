@@ -3,19 +3,19 @@ package com.example.springcontexttest.tx.dto;
 
 public class Member {
 
-    private int id;
+    private Long id;
     private String name;
 
-    public Member(int id, String name) {
+    public Member(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

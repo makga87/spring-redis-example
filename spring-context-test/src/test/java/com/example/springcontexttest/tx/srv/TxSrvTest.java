@@ -33,7 +33,7 @@ class TxSrvTest {
     void _10TimesFor_throwException() throws Exception {
         List<Member> memberList = getManyMembers(10);
         for (Member m : memberList) {
-            if (m.getId() == 3) throw new Exception();
+            if (m.getId() == 3l) throw new Exception();
             System.out.println(m.getId());
         }
     }
@@ -53,7 +53,7 @@ class TxSrvTest {
 
     public List<Member> getManyMembers(int memberCnt) {
         List<Member> memberList = new ArrayList<>();
-        for (int i = 1; i <= memberCnt; i++) {
+        for (long i = 1; i <= memberCnt; i++) {
             memberList.add(new Member(i, "test" + i));
         }
         return memberList;

@@ -78,6 +78,16 @@ public class TxShell {
         txSrv.transactional_practice_3();
     }
 
+    @ShellMethod(value = "private 메서드들과 @Transactional", key = "tx-case11")
+    public void txTest11() throws Exception {
+        txSrv.insert3Times_private();
+    }
+
+    @ShellMethod(value = "public 메서드들과 @Transactional", key = "tx-case12")
+    public void txTest12() throws Exception {
+        txSrv.insert3Times_public();
+    }
+
     @ShellMethod(value = "디비 초기화", key = "tx-clear")
     public void txClear(){
         txSrv.delete();
