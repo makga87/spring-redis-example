@@ -127,7 +127,7 @@ public class TxSrv {
                 });
     }
 
-    public void transactional_practice_1() throws InterruptedException {
+    public void transactional_with_sleep_db_down_1() throws InterruptedException {
         List<Member> memberList = getManyMembers(10);
         for (Member m : memberList) {
             Thread.sleep(DELAY);
@@ -136,7 +136,7 @@ public class TxSrv {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void transactional_practice_2() throws InterruptedException {
+    public void transactional_with_sleep_db_down_2() throws InterruptedException {
         List<Member> memberList = getManyMembers(10);
         for (Member m : memberList) {
             Thread.sleep(DELAY);
@@ -145,7 +145,7 @@ public class TxSrv {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public void transactional_practice_3() {
+    public void transactional_with_sleep_db_down_3() {
         List<Member> memberList = getManyMembers(10);
         memberList.stream()
                 .forEach((m) -> {
@@ -158,7 +158,18 @@ public class TxSrv {
                 });
     }
 
-
+    public void transactional_with_sleep_db_down_4() {
+        List<Member> memberList = getManyMembers(10);
+        memberList.stream()
+                .forEach((m) -> {
+                    try {
+                        Thread.sleep(DELAY);
+                        memberRepo.insert(m);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
 
     @Transactional(rollbackFor = {Exception.class})
     public void insert3Times_private() throws Exception {

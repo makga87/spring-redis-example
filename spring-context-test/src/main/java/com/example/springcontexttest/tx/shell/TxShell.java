@@ -65,27 +65,55 @@ public class TxShell {
     }
 
 
-    @ShellMethod(value = "실습 1, @Transactional 없음", key = "tx-prt1")
-    public void txPractice1() throws InterruptedException {
-        txSrv.transactional_practice_1();
+    @ShellMethod(value = "with sleep, @Transactional 없음", key = "tx-case11")
+    public void txTeset11() throws InterruptedException {
+        txSrv.transactional_with_sleep_db_down_1();
     }
-    @ShellMethod(value = "실습 2, @Transactional 있음", key = "tx-prt2")
-    public void txPractice2() throws InterruptedException {
-        txSrv.transactional_practice_2();
+    @ShellMethod(value = "with sleep, @Transactional 있음", key = "tx-case12")
+    public void txTeset12() throws InterruptedException {
+        txSrv.transactional_with_sleep_db_down_2();
     }
-    @ShellMethod(value = "실습 3, @Transactional 있음", key = "tx-prt3")
-    public void txPractice3() {
-        txSrv.transactional_practice_3();
+    @ShellMethod(value = "with sleep, @Transactional 있음", key = "tx-case13")
+    public void txTeset13() {
+        txSrv.transactional_with_sleep_db_down_3();
     }
 
-    @ShellMethod(value = "private 메서드들과 @Transactional", key = "tx-case11")
-    public void txTest11() throws Exception {
+    @ShellMethod(value = "private 메서드들과 @Transactional", key = "tx-case14")
+    public void txTest14() throws Exception {
         txSrv.insert3Times_private();
     }
 
-    @ShellMethod(value = "public 메서드들과 @Transactional", key = "tx-case12")
-    public void txTest12() throws Exception {
-        txSrv.insert3Times_public();
+    @ShellMethod(value = "tx-case13에서 @Transactional만 없는 경우", key = "tx-case15")
+    public void txTest15() throws Exception {
+        txSrv.transactional_with_sleep_db_down_4();
+    }
+
+    /**
+     * 이하, 발표용 샘플
+     */
+    @ShellMethod(value = "정상적인 동작을 확인해본다. (for, throw, @Transactional)", key = "tx-prt1")
+    public void txPractice1() throws Exception {
+        txTest3();
+    }
+
+    @ShellMethod(value = "잘못된 적용을 확인해본다. (for, try-catch, @Transactional)", key = "tx-prt2")
+    public void txPractice2() throws Exception {
+        txTest1();
+    }
+
+    @ShellMethod(value = "stream에서 동작을 확인해본다. (stream, @Transactional)", key = "tx-prt3")
+    public void txPractice3() throws Exception {
+        txTest8();
+    }
+
+    @ShellMethod(value = "stream에서도 롤백이 되는 경우를 확인해본다. (stream, @Transactional, db 끊김)", key = "tx-prt4")
+    public void txPractice4() throws Exception {
+        txTeset13();
+    }
+
+    @ShellMethod(value = "tx-prt4번에서 @Transactional을 뺀 경우를 확인해본다. (stream, db 끊김)", key = "tx-prt5")
+    public void txPractice5() throws Exception {
+        txTest15();
     }
 
     @ShellMethod(value = "디비 초기화", key = "tx-clear")
