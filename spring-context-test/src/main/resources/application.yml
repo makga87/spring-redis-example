@@ -1,6 +1,17 @@
-
 spring:
   datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: root
+    password: redhatxen
+    url: "jdbc:log4jdbc:mysql://localhost:13307/spring_context_test"
+
+tx-datasource:
+  master:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    username: root
+    password: redhatxen
+    url: "jdbc:log4jdbc:mysql://localhost:13307/spring_context_test"
+  slave:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     username: root
     password: redhatxen
