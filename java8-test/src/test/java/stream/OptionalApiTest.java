@@ -89,7 +89,33 @@ class OptionalApiTest {
          * orElseGet은 Optional.of 의 값이 Null인 경우에만 호출 한다. (후 준비)
          */
         Employee _result = Optional.of(employee).orElseGet(()->_employee);
+    }
 
+    @Test
+    void orElseGet_NotNull인_경우(){
+
+        Employee employee = new Employee("개발팀", "아무개", 36);
+        Employee _result = Optional.of(employee).orElseGet(()-> null);
+
+        System.out.println(_result.toString());
+    }
+
+    @Test
+    void of인경우_orElseGet_Null인_경우_예외발생(){
+
+        Employee employee = null;
+        Employee _result = Optional.of(employee).orElseGet(()-> new Employee("개발팀", "아무개", 99));
+
+        System.out.println(_result.toString());
+    }
+
+    @Test
+    void ofNullable인경우_orElseGet_Null인_경우_정상동작(){
+
+        Employee employee = null;
+        Employee _result = Optional.ofNullable(employee).orElseGet(()-> new Employee("개발팀", "아무개", 99));
+
+        System.out.println(_result.toString());
     }
 
     @Test

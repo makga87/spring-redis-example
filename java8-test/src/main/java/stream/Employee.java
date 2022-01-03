@@ -39,4 +39,13 @@ public class Employee {
     public void setAge(int age) {
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("department=").append(this.department).append(",");
+        sb.append("name=").append(this.name).append(",");
+        sb.append("age=").append(this.age).append("");
+        return sb.toString();
+    }
 }
